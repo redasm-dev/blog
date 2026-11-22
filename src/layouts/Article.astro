@@ -1,0 +1,56 @@
+---
+import ScrollProgress from "../components/ScrollProgress.astro";
+import Page from "../layouts/Page.astro";
+
+const post = Astro.props.frontmatter || Astro.props;
+---
+
+<Page title={post.title} description={post.description} nodescription={true} nobreadcrumb={true} showgoback={true} ogimage={post.ogimage}>
+    <slot name="header"/>
+    <ScrollProgress/>
+    <article>
+        <slot/>
+    </article>
+</Page>
+<script>
+    // A "Copy" button on every code block. It lives in a wrapper around the <pre>, not in
+    // it: the <pre> scrolls sideways on long lines, and the button must stay in its corner.
+    const COPY_LABEL = "Copy";
+
+    async function copyCode(pre: Element, button: HTMLButtonElement) {
+        const code = pre.querySelector("code");
+        if(!code) return;
+
+        try {
+            await navigator.clipboard.writeText(code.innerText);
+            button.textContent = "Copied";
+            button.classList.add("copied");
+        }
+        catch {
+            button.textContent = "Failed"; // no clipboard access (e.g. not https)
+        }
+
+        setTimeout(() => {
+            button.textContent = COPY_LABEL;
+            button.classList.remove("copied");
+        }, 1500);
+    }
+
+    for(const pre of document.querySelectorAll("pre.astro-code")) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "code-block";
+        pre.parentNode?.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy-code";
+        button.textContent = COPY_LABEL;
+        button.setAttribute("aria-label", "Copy code");
+        button.setAttribute("aria-live", "polite"); // screen readers hear "Copied"
+        button.addEventListener("click", () => copyCode(pre, button));
+        wrapper.appendChild(button);
+
+        pre.setAttribute("tabindex", "0"); // scrollable with the keyboard
+    }
+</script>

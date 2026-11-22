@@ -1,0 +1,52 @@
+@layer base {
+    article {
+        h1, h2, h3, h4, h5, h6 { 
+            @apply font-bold mt-4 mb-1;
+        }
+
+        h1 { font-size: var(--h1-size); }
+        h2 { font-size: var(--h2-size); }
+        h3 { font-size: var(--h3-size); }
+        h4 { font-size: var(--h4-size); }
+        h5 { font-size: var(--h5-size); }
+        h6 { font-size: var(--h6-size); }
+
+
+        :not(pre) > code { 
+            @apply border border-muted/50; 
+            padding: 0.18rem;
+        }
+
+        p { margin: 0 0 1em 0; }
+
+        a { @apply text-link underline decoration-link/40 decoration-1 underline-offset-4 hover:decoration-link; }
+
+        img { @apply mx-auto m-3; }
+        figcaption { @apply pb-5 italic text-sm; }
+
+        ul { @apply list-disc; }
+        ol { @apply list-decimal; }
+        ul, ol { margin-bottom: 1em; }
+
+        /* code blocks: colors from redasm-theme.js; framed like redasm.dev's panels */
+        .code-block { @apply relative my-3; }
+        pre.astro-code { @apply px-4 py-3 border border-muted/60; }
+
+        /* Copy button (layouts/Article.astro): top-right, shown on hover or keyboard focus,
+           always shown where there's no hover (touch screens) */
+        .copy-code {
+            @apply absolute top-2 right-2 px-2 py-1;
+            @apply cursor-pointer text-xs uppercase tracking-[0.08em];
+            @apply border border-primary bg-background-alt text-foreground;
+            @apply opacity-0 transition-opacity;
+        }
+
+        .code-block:hover .copy-code, .copy-code:focus-visible, .copy-code.copied { @apply opacity-100; }
+        .copy-code:hover { @apply bg-primary; }
+        .copy-code.copied { @apply border-success text-success bg-background-alt; }
+
+        @media (hover: none) {
+            .copy-code { @apply opacity-100; }
+        }
+    }
+}

@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+import { SITE_TITLE } from "../consts";
+
+const SITE_USER = "visitor"
+const SITE_PROMPT = `[${SITE_USER}@${SITE_TITLE}]`;
+---
+
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content="This page does not exist." />
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <title>404: Not Found</title>
+    </head>
+    <body class="bg-background text-foreground">
+        <main class="relative min-h-screen text-base md:text-xl">
+            <div class="absolute flex flex-col left-6 right-6 md:left-20 md:right-auto top-1/2 -translate-y-1/2">
+                <div>
+                    <p>
+                    <span class="text-success font-bold">{SITE_PROMPT}</span><span>: </span>
+                    <span>GET <span class="text-link break-all">{Astro.url.pathname}</span></span>
+                    </p>
+                </div>
+                <div class="text-error font-bold uppercase">404: page not found</div>
+                <div>
+                    <span class="text-success font-bold">{SITE_PROMPT}</span><span>: </span>
+                    <a href="/" class="hover:text-highlight underline underline-offset-6 whitespace-nowrap">cd /home/{SITE_USER}</a>
+                    <span class="cursor" aria-hidden="true">▋</span>
+                </div>
+            </div>
+        </main>
+        <style>
+            .cursor {
+                display: inline-block;
+                width: 1ch;
+                background-color: currentColor;
+                animation: blink 1s step-end infinite;
+            }
+
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+            }
+
+            /* no blinking for people who turned off animations in their system */
+            @media (prefers-reduced-motion: reduce) {
+                .cursor { animation: none; }
+            }
+        </style>
+    </body>
+</html>

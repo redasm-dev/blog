@@ -1,0 +1,88 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, BLOG_TITLE, SITE_TAGLINE } from "../consts.ts";
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description, search, ogimage } = Astro.props; // ogimage: a post's preview image path
+
+// The home page has no title of its own: it's the blog's name. Other pages get the blog's
+// name after theirs in <title> (tabs, search results); link previews show the page title
+// alone, with the blog's name as og:site_name.
+const pageTitle = title || BLOG_TITLE;
+const documentTitle = title ? `${title} - ${BLOG_TITLE}` : BLOG_TITLE;
+const pageDescription = description || SITE_TAGLINE;
+
+const isArticle = !!ogimage;
+const ogType = isArticle ? "article" : "website";
+const ogImageUrl = () => new URL(ogimage ?? "/opengraph.png", Astro.site);
+
+---
+
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+        <!-- Global Metadata -->
+        <link rel="icon" type="image/png" href="/favicon-96x96.png?v=20261122" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261122" />
+        <link rel="shortcut icon" href="/favicon.ico?v=20260826" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20261122" />
+        <link rel="manifest" href="/site.webmanifest?v=20261122" />
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="color-scheme" content="dark">
+
+        {isArticle && <meta name="fediverse:creator" content="@redasm@infosec.exchange" />}
+
+        <link rel="me" href="https://infosec.exchange/@redasm">
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL("rss.xml", Astro.site)} />
+
+        <!-- Font preloads -->
+        <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/JetBrainsMono-Italic.woff2" as="font" type="font/woff2" crossorigin />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Search Library -->
+        {search === true && <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />}
+
+        <!-- Primary Meta Tags -->
+        <title>{documentTitle}</title>
+        <meta name="title" content={documentTitle} />
+        <meta name="description" content={pageDescription} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:site_name" content={BLOG_TITLE} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={ogImageUrl()} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:title" content={pageTitle} />
+        <meta property="twitter:description" content={pageDescription} />
+        <meta property="twitter:image" content={ogImageUrl()} />
+	</head>
+    <body class="min-h-screen flex flex-col text-foreground bg-background">
+		<Header/>
+		<main class="flex-1 w-full max-w-4xl mx-auto px-6">
+            <slot/>
+		</main>
+		<Footer/>
+	</body>
+    {search === true && <script is:inline src="/pagefind/pagefind-ui.js"></script>}
+</html>

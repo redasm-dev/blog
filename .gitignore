@@ -1,0 +1,4 @@
+.automaton/
+.astro/
+node_modules/
+dist/

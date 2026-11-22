@@ -1,0 +1,22 @@
+---
+import { Icon } from "astro-icon/components";
+import HeaderLink from "./HeaderLink.astro";
+---
+
+<header class="bg-background-alt text-muted-text sticky top-0 z-20 border-b border-background">
+    <nav class="max-w-4xl mx-auto px-6 flex items-center justify-between">
+        <a href="/">
+            <img alt="REDasm Blog" class="h-[48px] py-2" src="/logo.png">
+        </a>
+        <ul class="flex items-center gap-x-5 text-sm">
+            <HeaderLink href="/archive">Archive</HeaderLink>
+            <HeaderLink href="/tags">Tags</HeaderLink>
+            <HeaderLink href="/search">Search</HeaderLink>
+            <li class="py-2 pl-5 border-l border-muted">
+                <a href="https://redasm.dev" class="inline-flex items-center gap-x-1 font-bold hover:text-foreground" target="_blank">
+                    redasm.dev <Icon name="mdi:arrow-top-right" size="1rem"/>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
