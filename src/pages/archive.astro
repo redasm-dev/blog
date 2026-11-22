@@ -6,7 +6,7 @@ import { getGroupedPosts } from "../utils.js";
 const posts = await getGroupedPosts();
 ---
 
-<Page title="Archive" description="Chronological archive of my posts.">
+<Page title="Archive" description="All posts from the REDasm blog, grouped by year.">
 {
     Object.keys(posts).reverse().map(year => (
     <details class="cursor-pointer border border-muted p-3 mb-2 

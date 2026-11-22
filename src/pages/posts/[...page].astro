@@ -11,7 +11,7 @@ export async function getStaticPaths({paginate}) {
 const {page} = Astro.props;
 ---
 
-<Page title="Posts" description="Discover my most recent posts.">
+<Page title="Posts" description="The latest posts from the REDasm blog.">
     <ul>
         { page.data.map(x => <Post post={x}/>) }
     </ul>
