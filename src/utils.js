@@ -28,7 +28,7 @@ export async function getExcerpt(post) {
 }
 
 export async function getPosts() {
-    return (await getCollection("blog", ({ data }) => !data.draft));
+    return (await getCollection("blog", ({ data }) => import.meta.env.PROD ? !data.draft : true));
 }
 
 export async function getSortedPosts() {
@@ -101,7 +101,7 @@ const OG = {
 // Windows API calls by name, jumps to loc_ labels: how REDasm shows them.
 // satori trims spaces at the edges of spans: a trailing space becomes a margin.
 const R = text => [text, OG.reg], N = text => [text, OG.number], F = text => [text, OG.function],
-      L = text => [text, OG.location], P = text => [text, OG.fg];
+    L = text => [text, OG.location], P = text => [text, OG.fg];
 
 const OG_DISASM = [
     ["push", [R("ebp")]],
