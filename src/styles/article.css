@@ -1,8 +1,12 @@
 @layer base {
     article {
-        h1, h2, h3, h4, h5, h6 { 
-            @apply font-bold mt-4 mb-1;
+        h1, h2, h3, h4, h5, h6 {
+            @apply font-bold mt-10 mb-3;
         }
+
+        /* section headings: brand-red "#" marker and a faint rule, so they stand out from bold body text */
+        h2 { @apply pb-1 border-b border-foreground/15; }
+        h2::before { content: "# " / ""; color: var(--branding); }
 
         h1 { font-size: var(--h1-size); }
         h2 { font-size: var(--h2-size); }
